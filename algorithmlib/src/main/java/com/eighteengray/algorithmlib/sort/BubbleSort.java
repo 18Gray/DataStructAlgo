@@ -1,43 +1,37 @@
 package com.eighteengray.algorithmlib.sort;
 
-import com.razergene.datastructalgo.common.Utils;
-
 
 
 /**
- * ð������
- * ����һ��ʱ����������Ԫ�رȽϣ�С�߷�ǰ�����߷ź󡣾���һ������Ԫ�ػᵽ�����Ϊֻ��
- * ��һ��Ԫ���ܸ�����Ԫ�ضԱȴ�С��
- * �����پ���N-1�α�����ÿ�ζ�����ǰN-i��Ԫ�أ��ҵ����Ԫ�ط����
- * ʣ�����һ��Ԫ����Ȼ����С�ģ������������
- * ********
- * ******
- * ****
- * ***
- * **
- * *
- * @author Razer
+ * 通过相邻两个元素之间的比较和交换，使较大的元素逐渐从前面移向后面（升序），就像水底下的气泡一样逐渐向上冒泡，所以被称为“冒泡”排序。
+ * 算法复杂度分析：使用优化后的冒泡排序，最好的情况下，仅需要n - 1次比较，时间复杂度为O(n)；最坏情况下，需要n(n - 1)/2次比较和交换；
+ 所以平均时间复杂度为O(n2)。
  */
 public class BubbleSort
 {
-	
-	public static void bubbleSort(int[] numbers)
-    {
-        int temp = 0;
-        int size = numbers.length;
-        for(int i = 0 ; i < size-1; i++)  //������������N-1�Ĵ���
-        {
-        	for(int j = 0;j < size-1-i; j++) //����������ȥ����������Ԫ��
-        	{
-        		if(numbers[j] > numbers[j+1])  //��������λ��
-        		{
-        			Utils.switchNum(numbers[j], numbers[j+1]);
-        		}
-        	}
-        }
-    }
+	public static void main(String[] args) {
+		int[] list = {36, 28, 45, 13, 67, 37, 18, 56};
+		System.out.println("排序后：");
+		bubbleSort(list);
+	}
 
-	
-
+	/**
+	 * 冒泡排序算法
+	 */
+	public static void bubbleSort(int[] list) {
+		int temp;
+		// 做多少轮排序（最多length-1轮）
+		for (int i = 0; i < list.length - 1; i++) {
+			// 每一轮比较多少个
+			for (int j = 0; j < list.length - 1 - i; j++) {
+				if (list[j] > list[j + 1]) {
+					// 交换次序
+					temp = list[j];
+					list[j] = list[j + 1];
+					list[j + 1] = temp;
+				}
+			}
+		}
+	}
 	
 }

@@ -9,11 +9,9 @@ public class ArrayStack<T>
 	
 	public ArrayStack()
 	{
-		// TODO Auto-generated constructor stub
 		this( DEFAULT_CAPACITY );
 	}
 	
-	@SuppressWarnings("unchecked")
 	public ArrayStack(int capacity)
     {
         theArray = (T[]) new Object[capacity];
@@ -61,7 +59,6 @@ public class ArrayStack<T>
 
     /**
      * Remove the most recently inserted item from the stack.
-     * @exception Underflow if stack is already empty.
      */
     public void pop()
     {
@@ -73,7 +70,6 @@ public class ArrayStack<T>
     /**
      * Insert a new item into the stack, if not already full.
      * @param x the item to insert.
-     * @exception Overflow if stack is already full.
      */
     public void push(T x)
     {

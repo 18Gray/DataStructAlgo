@@ -1,36 +1,32 @@
 package com.eighteengray.algorithmlib.sort;
 
 /**
- * ��������
- * @author Razer
+ * 直接插入排序的基本思想是：每次从无序序列中取出第一个元素插入到已经排好序的有序序列中，从而得到一个新的，数量加1的有序序列。
  */
 public class InsertSort
 {
+	public static void main(String[] args) {
+		int[] list = {90, 10, 20, 50, 70, 40, 80, 60, 30, 52};
+
+		System.out.println("排序后：");
+		insertSort(list);
+	}
 
 	/**
-	 * ��������
-	 * �ӵ�һ��Ԫ�ؿ�ʼ����Ԫ�ؿ�����Ϊ�Ѿ������� ȡ����һ��Ԫ�أ����Ѿ������Ԫ�������дӺ���ǰɨ��
-	 * �����Ԫ�أ������򣩴�����Ԫ�أ�����Ԫ���Ƶ���һλ�� �ظ�����3��ֱ���ҵ��������Ԫ��С�ڻ��ߵ�����Ԫ�ص�λ�� ����Ԫ�ز��뵽��λ���� �ظ�����2
-	 * @param numbers ����������
+	 * 直接插入排序算法
 	 */
-	public static void insertSort(int[] numbers)
-	{
-		int size = numbers.length;
-		int temp = 0;
-		int j = 0;
-
-		for (int i = 0; i < size; i++)
-		{
-			temp = numbers[i];
-			// ����temp��ǰ���ֵС����ǰ���ֵ����
-			for (j = i; j > 0; j--)
-			{
-				if(temp < numbers[j - 1])
-				{
-					numbers[j] = numbers[j - 1];
-				}
+	public static void insertSort(int[] list) {
+		// 从无序序列中取出第一个元素 (注意无序序列是从第二个元素开始的)
+		for (int i = 1; i < list.length; i++) {
+			int temp = list[i];
+			int j;
+			// 遍历有序序列
+			// 如果有序序列中的元素比临时元素大，则将有序序列中比临时元素大的元素依次后移
+			for (j = i - 1; j >= 0 && list[j] > temp; j--) {
+				list[j + 1] = list[j];
 			}
-			numbers[j] = temp;
+			// 将临时元素插入到腾出的位置中
+			list[j + 1] = temp;
 		}
 	}
 
