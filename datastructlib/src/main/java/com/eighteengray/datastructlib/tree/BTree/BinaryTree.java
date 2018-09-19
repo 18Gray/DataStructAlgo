@@ -14,16 +14,14 @@ public class BinaryTree
     public Node root;   //有一个根节点
     public static int index;
 
-
+    // 用数组构建二叉树
     public Node CreateBTree(int[] a){
         Node root = null;
-        if(a[index]!='#'){
-            root = new Node(a[index]);
-            index++;
-            root.setLChild(CreateBTree(a));
-            index++;
-            root.setRChild(CreateBTree(a));
-        }
+        root = new Node(a[index]);
+        index++;
+        root.setLChild(CreateBTree(a));
+        index++;
+        root.setRChild(CreateBTree(a));
         return root;
     }
 
@@ -148,13 +146,10 @@ public class BinaryTree
                 cur = cur.left;
             }
 
-            if(stack.isEmpty()) {
-                break;
-            }
-
             // 因为此时已经没有左孩子了，所以输出栈顶元素
             cur = stack.pop();
             System.out.print(cur.data + " ");
+
             cur = cur.right;
         }
     }
@@ -406,6 +401,22 @@ public class BinaryTree
         return null;
     }
 
+    //递归判断一个节点是否在树里
+    public static boolean findNode(Node root, Node n) {
+        if(root == null || n == null) {
+            return false;
+        }
+        if(root == n) {
+            return true;
+        }
+        //先尝试在左子树里查找
+        boolean found = findNode(root.left, n);
+        if(!found) {    //如果不在左子树中
+            found = findNode(root.right, n);    //在右子树中查找
+        }
+        return found;
+    }
+
     //返回某节点的父节点
     public Node getParent(Node root, int x)
     {
@@ -449,22 +460,6 @@ public class BinaryTree
                 return getLastCommonParent(root.right, n1, n2);
             }
         }
-    }
-
-    //递归判断一个节点是否在树里
-    public static boolean findNode(Node root, Node n) {
-        if(root == null || n == null) {
-            return false;
-        }
-        if(root == n) {
-            return true;
-        }
-        //先尝试在左子树里查找
-        boolean found = findNode(root.left, n);
-        if(!found) {    //如果不在左子树中
-            found = findNode(root.right, n);    //在右子树中查找
-        }
-        return found;
     }
 
     //求二叉树中两个节点的最低公共祖先节点，更加简便的递归方法
@@ -1047,6 +1042,7 @@ public class BinaryTree
 
         findPathTemp(root, sum, path, currentSum);
     }
+
     public static void findPathTemp(Node root, int sum, LinkedList<Integer> path, int currentSum) {
         currentSum += root.data;
         path.addLast(root.data);
