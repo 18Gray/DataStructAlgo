@@ -1,93 +1,65 @@
 package com.eighteengray.algorithmlib.sort;
 
 
+import java.util.Arrays;
+
 /**
  * 归并排序是建立在归并操作上的一种有效的排序算法，该算法是采用分治法的典型应用。
  它指的是将两个已经排序的序列合并成一个序列的操作。归并排序算法依赖归并操作。归并排序有多路归并排序、两路归并排序 , 可用于内排序，也可以用于外排序。这里仅对内排序的两路归并方法进行讨论。
 
- 算法思路
-
+ 算法思路：
  把 n 个记录看成 n 个长度为 l 的有序子表
  进行两两归并使记录关键字有序，得到 n/2 个长度为 2 的有序子表
  重复第 2 步直到所有记录归并成一个长度为 n 的有序表为止。
  算法复杂度分析：
- 在最后一步，需要依次遍历两个已排序的好的数组，此时的时间复杂度为O(n)。
+ 在最后一步，需要依次遍历两个已排序好的数组，此时的时间复杂度为O(n)。
  同时又进行着二路归并，形成一颗完全二叉树，此时整个排序需要进行log2n次。
  所以归并排序的时间复杂度为O(nlogn)。这是它的最好、最坏、平均的时间性能。
  */
 
 class MergeSort {
-	public static void main(String[] args) {
-		int[] list = {50, 10, 90, 30, 70};
-
-		mergeSort(list, new int[list.length], 0, list.length - 1);
+	public static void main(String []args){
+		int []arr = {9,8,7,6,5,4,3,2,1};
+		sort(arr);
+		System.out.println(Arrays.toString(arr));
 	}
 
-	/**
-	 * 归并排序算法
-	 * @param list     待排序的列表
-	 * @param tempList 临时列表
-	 * @param head     列表开始位置
-	 * @param rear     列表结束位置
-	 */
-	public static void mergeSort(int[] list, int[] tempList, int head, int rear) {
-		if (head < rear) {
-			// 取分割位置
-			int middle = (head + rear) / 2;
-			// 递归划分列表的左序列
-			mergeSort(list, tempList, head, middle);
-			// 递归划分列表的右序列
-			mergeSort(list, tempList, middle + 1, rear);
-			// 列表的合并操作
-			merge(list, tempList, head, middle + 1, rear);
+	public static void sort(int []arr){
+		int []temp = new int[arr.length];//在排序前，先建好一个长度等于原数组长度的临时数组，避免递归中频繁开辟空间
+		sort(arr,0,arr.length-1,temp);
+	}
+
+	private static void sort(int[] arr,int left,int right,int []temp){
+		if(left<right){
+			int mid = (left+right)/2;
+			sort(arr,left,mid,temp);//左边归并排序，使得左子序列有序
+			sort(arr,mid+1,right,temp);//右边归并排序，使得右子序列有序
+			merge(arr,left,mid,right,temp);//将两个有序子数组合并操作
 		}
 	}
 
-	/**
-	 * 合并操作(列表的两两合并)
-	 *
-	 * @param list
-	 * @param tempList
-	 * @param head
-	 * @param middle
-	 * @param rear
-	 */
-	public static void merge(int[] list, int[] tempList, int head, int middle, int rear) {
-		// 左指针尾
-		int headEnd = middle - 1;
-		// 右指针头
-		int rearStart = middle;
-		// 临时列表的下标
-		int tempIndex = head;
-		// 列表合并后的长度
-		int tempLength = rear - head + 1;
-
-		// 先循环两个区间段都没有结束的情况
-		while ((headEnd >= head) && (rearStart <= rear)) {
-			// 如果发现右序列大，则将此数放入临时列表
-			if (list[head] < list[rearStart]) {
-				tempList[tempIndex++] = list[head++];
-			} else {
-				tempList[tempIndex++] = list[rearStart++];
+	private static void merge(int[] arr,int left,int mid,int right,int[] temp){
+		int i = left;//左序列指针
+		int j = mid+1;//右序列指针
+		int t = 0;//临时数组指针，指向最终的temp
+		while (i<=mid && j<=right){
+			if(arr[i]<=arr[j]){
+				temp[t++] = arr[i++];
+			}else {
+				temp[t++] = arr[j++];
 			}
 		}
-
-		// 判断左序列是否结束
-		while (head <= headEnd) {
-			tempList[tempIndex++] = list[head++];
+		while(i<=mid){//将左边剩余元素填充进temp中
+			temp[t++] = arr[i++];
 		}
-
-		// 判断右序列是否结束
-		while (rearStart <= rear) {
-			tempList[tempIndex++] = list[rearStart++];
+		while(j<=right){//将右序列剩余元素填充进temp中
+			temp[t++] = arr[j++];
 		}
-
-		// 交换数据
-		for (int i = 0; i < tempLength; i++) {
-			list[rear] = tempList[rear];
-			rear--;
+		t = 0;
+		//将temp中的元素全部拷贝到原数组中
+		while(left <= right){
+			arr[left++] = temp[t++];
 		}
 	}
-
 }
 
