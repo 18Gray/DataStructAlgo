@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
 
+import javax.swing.tree.TreeNode;
 
 
 public class BinaryTree
@@ -25,9 +26,7 @@ public class BinaryTree
         return root;
     }
 
-    /**
-     * 根据前序遍历序列和中序遍历序列重建二叉树
-     */
+    // 根据前序遍历序列和中序遍历序列重建二叉树
     public static Node rebuildBinaryTreeByPreAndIn(List<Node> preOrder, List<Node> inOrder) {
         Node root = null;   //定义二叉树根节点
         List<Node> leftPreOrder;    //左子树前序遍历序列
@@ -55,9 +54,7 @@ public class BinaryTree
         return root;
     }
 
-    /**
-     * 根据中序和后序遍历序列重建二叉树
-     */
+    // 根据中序和后序遍历序列重建二叉树
     public static Node rebuildBinaryTreeByInAndPost(List<Node> inOrder, List<Node> postOrder) {
         Node root = null;   //新建根节点
         List<Node> leftInOrder;
@@ -81,6 +78,32 @@ public class BinaryTree
 
             root.left = rebuildBinaryTreeByInAndPost(leftInOrder, leftPostOrder);
             root.right = rebuildBinaryTreeByInAndPost(rightInOrder, rightPostOrder);
+        }
+        return root;
+    }
+
+    // 在二叉树中插入节点
+    Node insertNode(Node root, Node node){
+        if(root == node){
+            return node;
+        }
+        Node tmp = new Node(0);
+        tmp = root;
+        Node last = null;
+        while(tmp!=null){
+            last = tmp;
+            if(tmp.data>node.data){
+                tmp = tmp.left;
+            }else{
+                tmp = tmp.right;
+            }
+        }
+        if(last!=null){
+            if(last.data>node.data){
+                last.left = node;
+            }else{
+                last.right = node;
+            }
         }
         return root;
     }
@@ -128,10 +151,7 @@ public class BinaryTree
         inOrder(root.getRChild());
     }
 
-    /**
-     * 中序遍历迭代解法，用栈先把根节点的所有左孩子都添加到栈内，
-     * 然后输出栈顶元素，再处理栈顶元素的右子树
-     */
+    //中序遍历迭代解法，用栈先把根节点的所有左孩子都添加到栈内，然后输出栈顶元素，再处理栈顶元素的右子树
     public void inOrder2(Node root){
         if(root == null) {
             return;
@@ -164,10 +184,8 @@ public class BinaryTree
         System.out.print(root.getData()+",");
     }
 
-    /**
-     * 后序遍历，迭代
-     * 需要用到两个栈，分别将左子树和右子树压入栈1，再取出第一个栈中的元素存放到栈2中，完成后序遍历的逆序输出
-     */
+    //后序遍历，迭代
+    // 需要用到两个栈，分别将左子树和右子树压入栈1，再取出第一个栈中的元素存放到栈2中，完成后序遍历的逆序输出
     public void postOrder2(Node root){
         if(root == null) {
             return;
@@ -192,10 +210,8 @@ public class BinaryTree
         }
     }
 
-    /**
-     * 分层遍历二叉树（按层次从上往下，从左往右）迭代
-     * 相当于广度优先搜索，使用队列实现。队列初始化，将根节点压入队列。当队列不为空，进行如下操作：弹出一个节点
-     */
+    //分层遍历二叉树（按层次从上往下，从左往右）迭代
+    // 相当于广度优先搜索，使用队列实现。队列初始化，将根节点压入队列。当队列不为空，进行如下操作：弹出一个节点
     public void levelOrder(Node root){
         if(root == null) {
             return;
@@ -244,9 +260,7 @@ public class BinaryTree
     }
 
 
-    /**
-     * 二叉树的节点个数，递归
-     */
+    //二叉树的节点个数，递归
     public static int getNodesNum1(Node root) {
         if(root == null) {
             return 0;
@@ -256,10 +270,8 @@ public class BinaryTree
         return left + right + 1;
     }
 
-    /**
-     * 二叉树的节点个数，迭代
-     * java用LinkedList来模拟queue的用法
-     */
+    //二叉树的节点个数，迭代
+    // java用LinkedList来模拟queue的用法
     public static int getNodesNum2(Node root) {
         if(root == null) {
             return 0;
@@ -296,7 +308,7 @@ public class BinaryTree
 
     /**
      * 求二叉树中叶子节点的个数，迭代
-     *      基于层序遍历的思想
+     *  基于层序遍历的思想
      */
     public static int getLeafNodeNum2(Node root) {
         if(root == null) {
@@ -348,7 +360,7 @@ public class BinaryTree
 
     /**
      * 求二叉树第K层节点数目，迭代
-     *    利用层序遍历的思想
+     *  利用层序遍历的思想
      */
     public static int getKthLevelNodesNum2(Node root, int k) {
         if(root == null || k < 1) {
@@ -706,11 +718,7 @@ public class BinaryTree
      * （1）如果二叉树为空，返回0，同时记录左子树和右子树的深度，都为0
      * （2）如果二叉树不为空，最大距离要么是左子树中的最大距离，要么是右子树中的最大距离，
      * 要么是左子树节点中到根节点的最大距离+右子树节点中到根节点的最大距离，
-     *
      * 同时记录左子树和右子树节点中到根节点的最大距离。
-     *
-     * http://www.cnblogs.com/miloyip/archive/2010/02/25/1673114.html
-     *
      * 计算一个二叉树的最大距离有两个情况:
 
      情况A: 路径经过左子树的最深节点，通过根节点，再到右子树的最深节点。
@@ -918,7 +926,6 @@ public class BinaryTree
 
     /**
      * 求一棵二叉树的镜像
-     *
      *  迭代解法
      *  仍然采用前序遍历的方法，用栈来实现
      */
@@ -977,11 +984,7 @@ public class BinaryTree
 
     /**
      * 判断一个序列是否是二叉搜索树的后序遍历序列
-     *
      *  根据后序遍历序列的规则，最后一个元素即根元素，比根元素小的是左子树，大的是右子树，然后递归判断
-     *
-     *  @param start    起始索引下标
-     *  @param end      结束索引下标
      */
     public static boolean verifySequenceOfBST(int[] sequence, int start, int end) {
         if(sequence == null || start < 0 || end <= 0) {
